@@ -35,7 +35,7 @@ mod tests {
         let converter = setup_converter();
         
         // Example: Convert 2023-11-29 AD (which is 2080-08-13 BS)
-        let english_date = NaiveDate::from_ymd_opt(2023, 11, 29).unwrap();
+        let english_date = NaiveDate::from_ymd_opt(2026, 2, 19).unwrap();
         
         let result = converter.ad_to_bs(english_date);
         
