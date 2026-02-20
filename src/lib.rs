@@ -1,15 +1,15 @@
-pub mod utils;
-pub mod types;
-pub mod converter;
 pub mod constant;
+pub mod converter;
+pub mod types;
+pub mod utils;
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::fs;
-    use chrono::NaiveDate;
-    use crate::types::{YearData, NepaliDate};
     use crate::converter::DateConverter;
+    use crate::types::{NepaliDate, YearData};
+    use chrono::NaiveDate;
+    use std::fs;
 
     // Helper function to setup the converter with some sample data
     fn setup_converter() -> DateConverter {
@@ -18,26 +18,25 @@ mod tests {
         let data_str = include_str!("../data/calendar_data.json");
 
         // 2. Parse it into the Vec
-        let calendar_data: Vec<YearData> = serde_json::from_str(&data_str)
-            .expect("JSON format is incorrect");
+        let calendar_data: Vec<YearData> =
+            serde_json::from_str(&data_str).expect("JSON format is incorrect");
 
         // 3. Return the converter with the real data
         DateConverter::new(calendar_data)
     }
 
-     #[test]
+    #[test]
     fn test_ad_to_bs_conversion() {
         let converter = setup_converter();
-        
+
         // Example: Convert 2023-11-29 AD (which is 2080-08-13 BS)
-        let english_date = NaiveDate::from_ymd_opt(2026, 2, 19).unwrap();
-        
+        let english_date = NaiveDate::from_ymd_opt(1976, 2, 20).unwrap();
+
         let result = converter.ad_to_bs(english_date);
-        
+
         assert!(result.is_some(), "Conversion failed");
         let nepali = result.unwrap();
-        
-        println!("Converted 2023-11-29 to BS: {}-{}-{}", nepali.year, nepali.month, nepali.day);
 
+        println!("BS: {}-{}-{}", nepali.year, nepali.month, nepali.day);
     }
 }
