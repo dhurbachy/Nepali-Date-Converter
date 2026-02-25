@@ -38,11 +38,24 @@ fn main() {
 
     match nepali_date_converter::ad_to_bs(ad_date) {
         Some(date) => {
+             // 1. Direct Field Access
+            // Great for logic, calculations, or manual formatting
+            println!("--- Raw Data ---");
             println!("Nepali Year: {}", date.year);   // 2082
             println!("Nepali Month: {}", date.month); // 11
-            println!("Nepali Day: {}", date.day);     // 08
+            println!("Nepali Day: {}", date.day);     // 13
             
-            // Format it easily
+
+            // Best for displaying dates to users in different styles
+            println!("\n--- Formatted Output ---");
+            println!("Standard:  {}", date.format("YYYY-MM-DD"));
+            println!("Long Form: {}", date.format("DD MMMM, YYYY"));
+            println!("Month Only: {}", date.format("MMMM"));
+            println!("Full Date: {}", date.format("EEEE, DD MMMM YYYY"));
+            println!("Nepali Day: {}", date.format("NNNN")); 
+            
+              // Useful if you need specific padding (like 08 instead of 8)
+            println!("\n--- Manual Format ---");
             println!(
                 "Converted Date: {}-{:02}-{:02}",
                 date.year, date.month, date.day
