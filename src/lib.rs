@@ -2,10 +2,11 @@ use once_cell::sync::Lazy;
 use chrono::NaiveDate;
 use crate::types::{YearData, NepaliDate,EnglishDate};
 use crate::converter::DateConverter;
-
+pub use crate::formatter::NepaliFormatter; 
 pub mod constant;
 pub mod converter;
 pub mod types;
+pub mod formatter;
 
 // 1. Automatically load and parse the JSON data once at startup
 static GLOBAL_CONVERTER: Lazy<DateConverter> = Lazy::new(|| {
