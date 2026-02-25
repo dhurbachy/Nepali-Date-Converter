@@ -12,6 +12,7 @@ pub struct NepaliDate {
     pub year: i32,
     pub month: u32,
     pub day: u32,
+     pub day_of_week: Option<u8>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
