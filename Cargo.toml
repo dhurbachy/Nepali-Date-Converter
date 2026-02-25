@@ -1,6 +1,6 @@
 [package]
 name = "nepali-date-converter"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021" 
 authors = ["Dhrub Chaudhary <dhurbac66@gmail.com>"]
 description = "A fast and reliable Bikram Sambat (BS) ↔ Gregorian (AD) date converter written in Rust. This library provides accurate Nepali date conversion."
