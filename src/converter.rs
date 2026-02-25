@@ -1,6 +1,6 @@
 use crate::constant::*;
 use crate::types::{EnglishDate, NepaliDate, YearData};
-use chrono::{Duration, NaiveDate};
+use chrono::{Duration, NaiveDate,Datelike};
 
 pub struct DateConverter {
     data: Vec<YearData>,
@@ -43,26 +43,39 @@ impl DateConverter {
     }
 
     /// Convert BS to AD
-    pub fn bs_to_ad(&self, bs: NepaliDate) -> Option<NaiveDate> {
-        let mut total_days: i64 = 0;
+    pub fn bs_to_ad(&self, bs: NepaliDate) -> Option<EnglishDate> {
+       let mut total_days: i64 = 0;
+    let mut found = false;
 
-        // 1. Add days for years passed
-        for year_info in &self.data {
-            if year_info.year < bs.year {
-                total_days += year_info.total_days as i64;
-            } else if year_info.year == bs.year {
-                // 2. Add days for months passed in the target year
-                for m in 0..(bs.month - 1) {
-                    total_days += year_info.months[m as usize] as i64;
-                }
-                break;
+    // 1. Accumulate days until we reach the target BS date
+    for year_info in &self.data {
+        if year_info.year < bs.year {
+            total_days += year_info.total_days as i64;
+        } else if year_info.year == bs.year {
+            // Check if month is valid (1-12)
+            if bs.month == 0 || bs.month > 12 { return None; }
+            
+            for m in 0..(bs.month - 1) {
+                total_days += year_info.months[m as usize] as i64;
             }
+            found = true;
+            break;
         }
+    }
 
-        // 3. Add remaining days
-        total_days += (bs.day - 1) as i64;
+    if !found { return None; } // BS Year not in JSON data
 
-        let epoch = NaiveDate::from_ymd_opt(AD_EPOCH_YEAR, AD_EPOCH_MONTH, AD_EPOCH_DAY)?;
-        Some(epoch + Duration::days(total_days))
+    total_days += (bs.day - 1) as i64;
+
+    // 2. Add total days to the AD Epoch
+    let epoch = NaiveDate::from_ymd_opt(AD_EPOCH_YEAR, AD_EPOCH_MONTH, AD_EPOCH_DAY)?;
+    let ad_naive = epoch + Duration::days(total_days);
+
+    // 3. Map NaiveDate to your EnglishDate struct
+    Some(EnglishDate {
+        year: ad_naive.year(),
+        month: ad_naive.month(),
+        day: ad_naive.day(),
+    })
     }
 }
