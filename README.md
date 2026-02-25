@@ -20,7 +20,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-nepali-date-converter = "0.1.0"
+nepali-date-converter = "0.1.1"
 ```
 
 ---
