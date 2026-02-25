@@ -37,7 +37,7 @@ pub fn bs_to_ad(date_str:&str)-> Option<EnglishDate> {
     let month: u32 = parts[1].parse().ok()?;
     let day: u32 = parts[2].parse().ok()?;
 
-        let bs_date = NepaliDate { year, month, day };
+        let bs_date = NepaliDate { year, month, day,day_of_week:None };
 
 
     GLOBAL_CONVERTER.bs_to_ad(bs_date)
