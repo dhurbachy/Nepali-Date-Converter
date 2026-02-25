@@ -31,6 +31,7 @@ impl DateConverter {
                             year: year_info.year,
                             month: (idx + 1) as u32, // More reliable than manual counter
                             day: (remaining_days + 1) as u32,
+                            day_of_week: Some((days_diff % 7) as u8),
                         });
                     }
                     remaining_days -= days_in_month as i64;
